@@ -27,7 +27,7 @@ double ParticlePact::Vector2::getMagnitude() const
 
 void ParticlePact::Vector2::normalize()
 {
-    double m = getMagnitude();
+    const double m = getMagnitude();
     x /= m;
     y /= m;
 }
