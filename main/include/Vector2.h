@@ -56,6 +56,7 @@ namespace ParticlePact
                 y /= m;
             }
 
+			// The passed vector is considered the "final" vector in the formula "delta = final - initial"
             double distanceTo(const Vector2 &a) const
             {
                 return (a - *this).getMagnitude();
