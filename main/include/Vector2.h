@@ -99,7 +99,7 @@ namespace ParticlePact
 
     std::ostream& operator<<(std::ostream &stream, Vector2 const &a)
     {
-        return stream << "(" << a.getX() << ", " << a.getY() << ")";
+        return stream << "[" << a.getX() << ", " << a.getY() << "]";
     }
 }
 
