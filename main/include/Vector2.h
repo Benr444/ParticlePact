@@ -6,9 +6,10 @@
 
 namespace ParticlePact
 {
-    class Vector2; //Forward declaration of the Vector2 class
+    class Vector2; // Forward declaration of the Vector2 class
 
-    
+	// Forward declaration of minus operator
+    Vector2 operator-(Vector2 const &a, Vector2 const &b); 
 
     class Vector2
     {
@@ -17,7 +18,7 @@ namespace ParticlePact
             double y;
 
         public:
-            ~Vector2();
+            ~Vector2() {}
 
             Vector2() : x(0), y(0) {} // Initialize both values to zero
             

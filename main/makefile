@@ -4,7 +4,7 @@ all: LinkingTest.exe
 
 LinkingTest.exe:
 	echo "LinkingTest.exe target called"
-	gcc -Wall test\LinkingTest.cpp -o bin\LinkingTest
+	g++ -Wall test\LinkingTest.cpp -o bin\LinkingTest
 
 clean:
 	del -q -s bin/*
