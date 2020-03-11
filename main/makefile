@@ -7,6 +7,9 @@ SHELL=cmd
 all: LinkingTest.exe
 
 MyClass.cpp:
+	g++ -Wall -E test\MyClass.cpp -P -o bin\MyClass.pp
+	g++ -Wall -S test\MyClass.cpp -o bin\MyClass.asm
+	g++ -Wall -c test\MyClass.cpp -o bin\MyClass.o
 	g++ -Wall test\MyClass.cpp -o bin\MyClass
 
 OpenGLTest.cpp:
@@ -17,4 +20,4 @@ LinkingTest.exe:
 	g++ -Wall test\LinkingTest.cpp -o bin\LinkingTest
 
 clean:
-	del -q -s bin/*
+	del "bin\*" /q /s
