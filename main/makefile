@@ -1,8 +1,36 @@
+# =====
 # NOTES TO SELF #
 # The g++ -Wall flag turns on extra warnings
-# An "undefined reference to WinMain" means to define a main function
+# An "undefined reference to WinMain" means to define a main function 
+# =====
 
-SHELL=cmd
+# Final target
+EXE = MyClassDriver.exe
+
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
+INCLUDE_DIR = include
+
+# Files in those directories
+OBJ = $(OBJ_DIR)\MyClassDriver.o $(OBJ_DIR)\MyClass.o
+SRC = $(SRC_DIR)\MyClass.cpp $(SRC_DIR)\MyClassDriver.cpp
+
+# CPPFLAGS passed to every call of the compiler, by GNU Make's defaults. It stands for "C PreProcessor" flags
+CPPFLAGS = -I$(INCLUDE_DIR)
+
+# CFLAGS is passed to every call of the (compiler + assembler), by GNU Make's defaults
+CFLAGS = -Wall
+
+# LDFLAGS is passed toe very call of the linker, by GNU Make's defaults
+# LDFLAGS =
+
+# Compiler
+CXX = g++
+
+# ...
+SHELL = cmd
 
 # Any recipe which does not correspond to a file should be declared here. If it is not,
 # Then when a file with that name is created, it will follow the normal recipe rules
@@ -11,7 +39,7 @@ SHELL=cmd
 # but in the spirit of technicalities, I've done so
 .PHONY: all directories clean
 
-all: directories MyClass.exe
+all: directories $(EXE)
 
 # Creates all the directories necessary for output
 # The preceding @ symbol silences the recipe
@@ -24,17 +52,14 @@ clean:
 	del "bin\*" /q /s
 	del "obj\*" /q /s
 
-MyClass.exe: MyClassDriver.o MyClass.o
-	g++ -Wall -o bin\MyClass.exe obj\MyClassDriver.o obj\MyClass.o
+# To make the exe, use the list of objs
+# $@ = the name of the target
+# $< = the name of the first prereq
+# $^ = list of all prereqs
+$(EXE): $(OBJ)
+	$(CXX) -o $@ $^
 
-MyClass.o:
-	g++ -Wall -E -P -o obj\MyClass.pp test\MyClass.cpp
-	g++ -Wall -S -o obj\MyClass.asm test\MyClass.cpp
-	g++ -Wall -c -o obj\MyClass.o test\MyClass.cpp
-
-MyClassDriver.o:
-	g++ -Wall -c test\MyClassDriver.cpp -o obj\MyClassDriver.o
-
-LinkingTest.exe:
-	g++ -Wall -c -o obj\LinkingTest.o test\LinkingTest.cpp
-	g++ -Wall -o bin\LinkingTest.exe obj\LinkingTest.o
+# This is multi-target rule. It defines a bunch of targets at once. The real target name can be accessed
+# using $@.
+$(OBJ_DIR)\%.o: $(SRC_DIR)\%.cpp
+	$(CXX) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<

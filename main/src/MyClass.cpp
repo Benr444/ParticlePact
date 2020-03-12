@@ -1,6 +1,4 @@
-#include "..\include\MyClass.h"
-
-#include <iostream>
+#include <MyClass.h>
 
 MyClass::MyClass() {}
 
