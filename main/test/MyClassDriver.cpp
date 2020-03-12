@@ -1,4 +1,4 @@
-#include "MyClass.h"
+#include "..\include\MyClass.h"
 
 #include <iostream>
 

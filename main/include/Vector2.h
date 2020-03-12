@@ -8,8 +8,21 @@ namespace ParticlePact
 {
     class Vector2; // Forward declaration of the Vector2 class
 
-	// Forward declaration of minus operator
-    Vector2 operator-(Vector2 const &a, Vector2 const &b); 
+    // These operator overloads are outside the class to allow greater precision in definition
+
+    Vector2 operator+(Vector2 const &, Vector2 const &);
+    
+    Vector2 operator*(double const, Vector2 const &);
+
+    // This operator just reverses the order of the other (*) operator
+    Vector2 operator*(Vector2 const &, float const);
+
+    Vector2 operator-(Vector2 const &, Vector2 const &);
+
+    // Called "dot" instead of just multiplication so it's use is more explicit
+    Vector2 dot(Vector2 const a, Vector2 const &);
+
+    std::ostream& operator<<(std::ostream &, Vector2 const &);
 
     class Vector2
     {
@@ -18,90 +31,20 @@ namespace ParticlePact
             double y;
 
         public:
-            ~Vector2() {}
-
-            Vector2() : x(0), y(0) {} // Initialize both values to zero
+            Vector2();
+            Vector2(double, double);
+            ~Vector2();
             
-            Vector2(double xInit, double yInit) : x(xInit), y(yInit) {} // Initialize both values to the passed values
+            double getX() const;
+            void setX(double);
+            double getY() const;
+            void setY(double);
 
-            double getX() const
-            {
-                return x;
-            }
-
-            void setX(double newX)
-            {
-                x = newX;
-            }
-
-            double getY() const
-            {
-                return y;
-            }
-
-            void setY(double newY)
-            {
-                y = newY;
-            }
-
-            double getMagnitude() const
-            {
-                return std::sqrt(std::pow(x, 2) + std::pow(y, 2)); 
-            }
-
-            void normalize()
-            {
-                double m = getMagnitude();
-                x /= m;
-                y /= m;
-            }
-
-			// The passed vector is considered the "final" vector in the formula "delta = final - initial"
-            double distanceTo(const Vector2 &a) const
-            {
-                return (a - *this).getMagnitude();
-            }
-
-            // Returns true if the current vector is within the given distance of the second vector
-            bool within(double distance, const Vector2 &a) const
-            {
-                return (a.distanceTo(*this) <= distance);
-            }
+            double getMagnitude() const;
+            void normalize();
+            double distanceTo(const Vector2 &) const;
+            bool within(double, const Vector2 &) const;
     };
-
-    // These operator overloads are outside the class to allow greater precision in definition
-
-    Vector2 operator+(Vector2 const &a, Vector2 const &b)
-    {
-        return Vector2(a.getX() + b.getX(), a.getY() + b.getY());
-    }
-    
-    Vector2 operator*(double const f, Vector2 const &b)
-    {
-        return Vector2(f * b.getX(), f * b.getY());
-    }
-
-    Vector2 operator-(Vector2 const &a, Vector2 const &b)
-    {
-        return a + (-1.0 * b);
-    }
-
-    // This operator just reverses the order of the other (*) operator
-    Vector2 operator*(Vector2 const &b, float const f)
-    {
-        return f * b;
-    }
-
-    // Called "dot" instead of just multiplication so it's use is more explicit
-    Vector2 dot(Vector2 const &a, Vector2 const &b)
-    {
-        return Vector2(a.getX() * b.getX(), a.getY() * b.getY());
-    }
-
-    std::ostream& operator<<(std::ostream &stream, Vector2 const &a)
-    {
-        return stream << "[" << a.getX() << ", " << a.getY() << "]";
-    }
 }
 
 #endif

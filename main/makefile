@@ -11,25 +11,33 @@ SHELL=cmd
 # but in the spirit of technicalities, I've done so
 .PHONY: all directories clean
 
-all: directories LinkingTest.exe
+all: directories MyClass.exe
 
 # Creates all the directories necessary for output
 # The preceding @ symbol silences the recipe
 directories:
-	@if not exist bin (mkdir bin)
+	@if not exist bin (mkdir bin) 
 	@if not exist obj (mkdir obj)
 
-MyClass.cpp: directories
-	g++ -Wall -E test\MyClass.cpp -P -o obj\MyClass.pp
-	g++ -Wall -S test\MyClass.cpp -o obj\MyClass.asm
-	g++ -Wall -c test\MyClass.cpp -o obj\MyClass.o
-	g++ -Wall test\MyClass.cpp -o bin\MyClass
-
-OpenGLTest.cpp:
-	g++ -Wall test\OpenGLTest.cpp -o bin\OpenGLTest -IC:\Windows\System32\opengl32.dll
-
-LinkingTest.exe:
-	g++ -Wall test\LinkingTest.cpp -o bin\LinkingTest
-
+# Delete any outputs from the build pipeline
 clean:
 	del "bin\*" /q /s
+	del "obj\*" /q /s
+
+MyClass.exe: MyClassDriver.o MyClass.o
+	g++ -Wall -o bin\MyClass.exe obj\MyClassDriver.o obj\MyClass.o
+
+MyClass.o:
+	g++ -Wall -E -P -o obj\MyClass.pp test\MyClass.cpp
+	g++ -Wall -S -o obj\MyClass.asm test\MyClass.cpp
+	g++ -Wall -c -o obj\MyClass.o test\MyClass.cpp
+
+MyClassDriver.o:
+	g++ -Wall -c test\MyClassDriver.cpp -o obj\MyClassDriver.o
+
+LinkingTest.exe:
+	g++ -Wall -c -o obj\LinkingTest.o test\LinkingTest.cpp
+	g++ -Wall -o bin\LinkingTest.exe obj\LinkingTest.o
+
+Vector2.o:
+	g++ -Wall -c -o obj\Vector2.o src\Vector2.cpp

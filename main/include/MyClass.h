@@ -11,7 +11,7 @@ class MyClass
 
 		void setA(int);
 		int getA() const;
-		void setB(const std::string&);
+		void setB(const std::string &);
 		std::string getB() const;
 	private:
 		int a;
