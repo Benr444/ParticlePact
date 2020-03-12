@@ -38,6 +38,3 @@ MyClassDriver.o:
 LinkingTest.exe:
 	g++ -Wall -c -o obj\LinkingTest.o test\LinkingTest.cpp
 	g++ -Wall -o bin\LinkingTest.exe obj\LinkingTest.o
-
-Vector2.o:
-	g++ -Wall -c -o obj\Vector2.o src\Vector2.cpp
